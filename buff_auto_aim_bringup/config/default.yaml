@@ -1,0 +1,3 @@
+/buff_detector:
+  ros_parameters:
+    debug: true
