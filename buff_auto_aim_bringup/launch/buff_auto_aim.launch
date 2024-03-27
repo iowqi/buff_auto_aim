@@ -7,15 +7,24 @@ from launch_ros.actions import Node
 
 
 def generate_launch_description():
-    config = os.path.join(
-        get_package_share_directory("buff_detector"), "config", "default.yaml"
-    )
+    params_file = os.path.join(
+        get_package_share_directory("buff_auto_aim_bringup"), "config/default.yaml")
 
     buff_detector_node = Node(
         package="buff_detector",
         executable="buff_detector_node",
         output="screen",
-        parameters=[config],
+        emulate_tty=True,
+        parameters=[params_file],
+        ros_arguments=["--log-level", "debug"],
     )
 
-    return LaunchDescription([buff_detector_node])
+    camera_simulator = Node(
+        package="camera_simulator",
+        executable="camera_simulator",
+        output="screen",
+        emulate_tty=True,
+        arguments=["--type", "video", "--path", "./video/main_blue.mp4", "--loop", "--rate", "10", "--calibration_file", "./video/camera.yaml"]
+    )
+
+    return LaunchDescription([buff_detector_node, camera_simulator])

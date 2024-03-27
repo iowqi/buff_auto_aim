@@ -1,3 +1,4 @@
 /buff_detector:
-  ros_parameters:
+  ros__parameters:
     debug: true
+    detect_color: 0
