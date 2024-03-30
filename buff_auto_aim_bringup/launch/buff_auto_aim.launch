@@ -27,4 +27,11 @@ def generate_launch_description():
         arguments=["--type", "video", "--path", "./video/main_blue.mp4", "--loop", "--rate", "10", "--calibration_file", "./video/camera.yaml"]
     )
 
-    return LaunchDescription([buff_detector_node, camera_simulator])
+    rqt = Node(
+        package="rqt_gui",
+        executable="rqt_gui",
+        output="screen",
+        emulate_tty=True,
+    )
+
+    return LaunchDescription([buff_detector_node, camera_simulator, rqt])

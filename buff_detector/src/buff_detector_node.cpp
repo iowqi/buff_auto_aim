@@ -4,6 +4,8 @@
 #include <opencv2/highgui.hpp>
 #include <opencv2/imgproc.hpp>
 
+#include <ament_index_cpp/get_package_share_directory.hpp>
+
 #include "buff_detector/buff_detector_node.hpp"
 
 namespace buff_ws {
@@ -47,19 +49,39 @@ namespace buff_ws {
         param_desc.integer_range[0].step = 1;
         param_desc.integer_range[0].from_value = 0;
         param_desc.integer_range[0].to_value = 255;
-        int binary_thres = this->declare_parameter("binary_thres", 80, param_desc);
+        int binary_thres = this->declare_parameter("binary_thres", 200, param_desc);
 
         param_desc.description = "0-RED, 1-BLUE";
         param_desc.integer_range[0].from_value = 0;
         param_desc.integer_range[0].to_value = 1;
-        auto detect_color = this->declare_parameter("detect_color", RED, param_desc);
+        auto detect_color = this->declare_parameter("detect_color", 1, param_desc);
+        RCLCPP_INFO_STREAM(this->get_logger(), "target_color:" << get_parameter("detect_color").as_int());
 
         BuffDetector::LightParams l_params = {
             .sample_offset = declare_parameter("light.sample_offset", 2),
             .dencity_ratio = declare_parameter("light.dencity_ratio", 0.5),
-            .color_thres = declare_parameter("light.color_thres", 80)};
+            .color_thres = declare_parameter("light.color_thres", 128)};
 
-        auto detector = std::make_unique<BuffDetector>(binary_thres, detect_color, l_params);
+        BuffDetector::TargetParams t_params = {
+            .square_torrance = declare_parameter("target.square_torrance", 0.1),
+            .normalize_resolution = declare_parameter("target.normalize_resolution", 16),
+            .confidence_threshold = declare_parameter("target.confidence_threshold", 0.6)};
+
+        std::vector<cv::Mat> classifier_tamplates;
+        for (int i = 0; i < 3; i++) {
+            const auto pkg_path = ament_index_cpp::get_package_share_directory("buff_detector");
+            const std::string extname = ".png";
+            cv::String path = pkg_path + "/template/" + TARGET_TYPE_STR[i] + extname;
+            auto t = cv::imread(path, cv::IMREAD_GRAYSCALE);
+            if (t.empty())
+                RCLCPP_ERROR_STREAM(this->get_logger(), "Failed to load template: " << path);
+            RCLCPP_INFO_STREAM(this->get_logger(), "Loaded template: " << path);
+            auto s = get_parameter("target.normalize_resolution").as_int();
+            cv::resize(t, t, cv::Size(s, s));
+            classifier_tamplates.push_back(t);
+        }
+
+        auto detector = std::make_unique<BuffDetector>(binary_thres, detect_color, l_params, t_params, classifier_tamplates);
         return detector;
     }
 
