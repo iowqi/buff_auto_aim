@@ -1,0 +1,37 @@
+import os
+
+from ament_index_python.packages import get_package_share_directory
+
+from launch import LaunchDescription
+from launch_ros.actions import Node
+
+
+def generate_launch_description():
+    params_file = os.path.join(
+        get_package_share_directory("buff_auto_aim_bringup"), "config/default.yaml")
+
+    buff_detector_node = Node(
+        package="buff_detector",
+        executable="buff_detector_node",
+        output="screen",
+        emulate_tty=True,
+        parameters=[params_file],
+        ros_arguments=["--log-level", "debug"],
+    )
+
+    camera_simulator = Node(
+        package="camera_simulator",
+        executable="camera_simulator",
+        output="screen",
+        emulate_tty=True,
+        arguments=["--type", "video", "--path", "./video/main_blue.mp4", "--loop", "--rate", "10", "--calibration_file", "./video/camera.yaml"]
+    )
+
+    rqt = Node(
+        package="rqt_gui",
+        executable="rqt_gui",
+        output="screen",
+        emulate_tty=True,
+    )
+
+    return LaunchDescription([buff_detector_node, camera_simulator, rqt])

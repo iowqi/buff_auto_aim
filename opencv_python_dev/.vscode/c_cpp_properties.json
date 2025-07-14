@@ -1,0 +1,26 @@
+{
+  "configurations": [
+    {
+      "browse": {
+        "databaseFilename": "${default}",
+        "limitSymbolsToIncludedHeaders": false
+      },
+      "includePath": [
+        "/home/iowqi/buff_ws/install/buff_detector/include/**",
+        "/home/iowqi/buff_ws/install/image_geometry/include/**",
+        "/home/iowqi/buff_ws/install/cv_bridge/include/**",
+        "/home/iowqi/buff_ws/install/buff_auto_aim_bringup/include/**",
+        "/opt/ros/humble/include/**",
+        "/home/iowqi/buff_ws/src/buff_auto_aim/buff_auto_aim_bringup/include/**",
+        "/home/iowqi/buff_ws/src/buff_auto_aim/buff_detector/include/**",
+        "/usr/include/**"
+      ],
+      "name": "ROS",
+      "intelliSenseMode": "gcc-x64",
+      "compilerPath": "/usr/bin/gcc",
+      "cStandard": "gnu11",
+      "cppStandard": "c++14"
+    }
+  ],
+  "version": 4
+}

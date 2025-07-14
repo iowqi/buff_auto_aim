@@ -1,0 +1,20 @@
+{
+    "python.autoComplete.extraPaths": [
+        "/home/iowqi/buff_ws/install/camera_simulator/lib/python3.10/site-packages",
+        "/home/iowqi/buff_ws/install/opencv_tests/lib/python3.10/site-packages",
+        "/home/iowqi/buff_ws/install/image_geometry/local/lib/python3.10/dist-packages",
+        "/home/iowqi/buff_ws/install/cv_bridge/local/lib/python3.10/dist-packages",
+        "/home/iowqi/buff_ws/install/buff_auto_aim_bringup/lib/python3.10/site-packages",
+        "/opt/ros/humble/lib/python3.10/site-packages",
+        "/opt/ros/humble/local/lib/python3.10/dist-packages"
+    ],
+    "python.analysis.extraPaths": [
+        "/home/iowqi/buff_ws/install/camera_simulator/lib/python3.10/site-packages",
+        "/home/iowqi/buff_ws/install/opencv_tests/lib/python3.10/site-packages",
+        "/home/iowqi/buff_ws/install/image_geometry/local/lib/python3.10/dist-packages",
+        "/home/iowqi/buff_ws/install/cv_bridge/local/lib/python3.10/dist-packages",
+        "/home/iowqi/buff_ws/install/buff_auto_aim_bringup/lib/python3.10/site-packages",
+        "/opt/ros/humble/lib/python3.10/site-packages",
+        "/opt/ros/humble/local/lib/python3.10/dist-packages"
+    ]
+}
